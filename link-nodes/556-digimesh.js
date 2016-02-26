@@ -80,7 +80,7 @@ var xbee;
                                 // print the string status message for the status we got back
                                 node.log('delivery status: %s',
                                     xbee.DELIVERY_STATUS_STRINGS[data.status]);
-                                node.dir(data);
+                                console.dir(data);
                                 // console.log('goodbye');
                                 // process.exit(0);
                             });
