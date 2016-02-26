@@ -120,7 +120,7 @@ var xbee;
       xbee.on('message_received', function(data) {
         //var hexout = hex_to_ascii(data.data);
         console.log('received a message from %s with data: %s', data.addr,data.data);
-        var obj = {"payload": data.data.toString()};
+        var obj = {"payload": JSON.parse(data.data)};
         obj.payload["source"]= data.addr;
         node.send({ "payload": obj, "source": data.addr });
         // var length = data.data.length;
