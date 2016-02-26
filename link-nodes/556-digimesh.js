@@ -22,8 +22,9 @@
  **/
 
  var util = require("util");
- var events = require("events");
+ //var events = require("events");
  var RED = require("../../../red/red");
+ var events = require("../../../red/red");
  //var XBee = require('svd-xbee').XBee;
 var Xbee = require('digimesh');
 var xbee;
@@ -170,7 +171,7 @@ DigimeshInNode.prototype.close = function() {
     xbee.exit();
     console.log("DigimeshInNode closed");
 }
-RED.on("nodes-stopping",function(){
+events.on("nodes-stopping",function(){
   xbee.exit();
   console.log("DigimeshInNode closed");
 })
