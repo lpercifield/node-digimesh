@@ -23,7 +23,7 @@
 
  var util = require("util");
  var events = require("events");
- var RED = require("../../red/red");
+ var RED = require("../../../red/red");
  //var XBee = require('svd-xbee').XBee;
 var Xbee = require('./digimesh/digimesh');
 var xbee;
