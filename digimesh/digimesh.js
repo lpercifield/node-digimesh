@@ -175,7 +175,8 @@ util.inherits(XbeeDigiMesh, EventEmitter);
 
 XbeeDigiMesh.prototype.exit = function(){
     console.log("calling exit")
-    this.serial_port.close(function(err) {
+    var that = this;
+    that.serial_port.close(function(err) {
       if (err) console.log("Error closing port: "+util.inspect(err));
       process.exit();
     });
