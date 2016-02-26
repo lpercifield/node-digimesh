@@ -52,7 +52,7 @@ var xbee;
           //     node.serialConfig.serialbaud
           //   ).xbee; // ToDo: I'm not convinced that using a wrapper object is desirable or necessary
             xbee = new Xbee({ device: node.serialConfig.serialport, baud: node.serialConfig.serialbaud }, function() {
-                node.log'xbee is ready');
+                node.log('xbee is ready');
 
                 node.log('getting node identifier...');
                 // ask for node identifier string
