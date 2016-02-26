@@ -166,8 +166,9 @@ var XbeeDigiMesh = function(config, callback) {
     this.serial_port.on('data', function(data) {
         that.parse_byte(data[0]);
     });
-    var exit = function() { 
-      this.serial.close(function(err) {
+    var exit = function() {
+      console.log("CLOSING UP")
+      this.serial_port.close(function(err) {
         if (err) console.log("Error closing port: "+util.inspect(err));
         process.exit();
       });
