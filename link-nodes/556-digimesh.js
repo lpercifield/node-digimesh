@@ -118,7 +118,9 @@ var xbee;
       xbee.on('message_received', function(data) {
         //var hexout = hex_to_ascii(data.data);
         console.log('received a message from %s with data: %s', data.addr,data.data);
-        node.send({ "payload": data.data.toString(), "source": data.addr });
+        var obj = {"payload": data.data.toString()};
+        obj.payload["source"]= data.addr;
+        node.send({ "payload": obj, "source": data.addr });
         // var length = data.data.length;
         // var outstring = "";
         // switch (length) {
@@ -159,7 +161,7 @@ DigimeshInNode.prototype.close = function() {
     // Called when the node is shutdown - eg on redeploy.
     // Allows ports to be closed, connections dropped etc.
     // eg: this.client.disconnect();
-    util.log("DigimeshInNode closed");
+    console.log("DigimeshInNode closed");
 }
 
 
