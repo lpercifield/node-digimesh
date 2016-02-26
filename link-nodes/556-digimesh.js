@@ -25,7 +25,7 @@
  var events = require("events");
  var RED = require("../../../red/red");
  //var XBee = require('svd-xbee').XBee;
-var Xbee = require('../digimesh');
+var Xbee = require('digimesh');
 var xbee;
 /**
  * XBeeInNode - Provides an inbound connection to an XBEE network through an XBee module
