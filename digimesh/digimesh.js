@@ -151,6 +151,12 @@ var XbeeDigiMesh = function(config, callback) {
             num_complete++; if (num_complete === 3) complete();
         });
     });
+    this.exit = function() { 
+      this.serial_port.close(function(err) {
+        if (err) console.log("Error closing port: "+util.inspect(err));
+        process.exit();
+      });
+    }
 
     this.serial_port.on('error', function(err) {
         console.error(error);

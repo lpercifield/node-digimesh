@@ -45,49 +45,14 @@ var xbee;
     if (node.serialConfig) {
 
         try {
-          node.log(util.format("Get XBee on %s:%s from pool...", this.serialConfig.serialport, this.serialConfig.serialbaud));
 
+          node.log(util.format("Get XBee on %s:%s from pool...", this.serialConfig.serialport, this.serialConfig.serialbaud));
+          connectXbee();
           // node.xbee = xbeePool.get(
           //     node.serialConfig.serialport,
           //     node.serialConfig.serialbaud
           //   ).xbee; // ToDo: I'm not convinced that using a wrapper object is desirable or necessary
-            xbee = new Xbee({ device: node.serialConfig.serialport, baud: node.serialConfig.serialbaud }, function() {
-                node.log('xbee is ready');
 
-                node.log('getting node identifier...');
-                // ask for node identifier string
-                xbee.get_ni_string(function(err, data) {
-                    if (err) return console.err(err);
-                    node.log("my NI is '" + data.ni + "'");
-
-                    node.log('scanning for nodes on the network...');
-                    xbee.discover_nodes(function(err, nodes) {
-                        if (err) return console.err(err);
-                        node.log('%d nodes found:', nodes.length);
-                        console.dir(nodes);
-
-                        // if we found anyone
-                        if (nodes.length) {
-                            node.log("saying 'hello' to node %s...", nodes[0].addr);
-                            xbee.send_message({
-                                data: new Buffer("hello"),
-                                addr: nodes[0].addr,
-                                broadcast: false,
-                            },
-                            // callback
-                            function(err, data) {
-                                if (err) return console.error(err);
-                                // print the string status message for the status we got back
-                                node.log('delivery status: %s',
-                                    xbee.DELIVERY_STATUS_STRINGS[data.status]);
-                                console.dir(data);
-                                // console.log('goodbye');
-                                // process.exit(0);
-                            });
-                        }
-                    });
-                });
-            });
 
 
       } catch(err) {
@@ -161,7 +126,51 @@ DigimeshInNode.prototype.close = function() {
     // Called when the node is shutdown - eg on redeploy.
     // Allows ports to be closed, connections dropped etc.
     // eg: this.client.disconnect();
+    // this.serialConfig.serialport.close(function(err) {
+    //   if (err) console.log("Error closing port: "+util.inspect(err));
+    //   process.exit();
+    // });
+    xbee.exit();
     console.log("DigimeshInNode closed");
+}
+function connectXbee(){
+  xbee = new Xbee({ device: node.serialConfig.serialport, baud: node.serialConfig.serialbaud }, function() {
+      node.log('xbee is ready');
+
+      node.log('getting node identifier...');
+      // ask for node identifier string
+      xbee.get_ni_string(function(err, data) {
+          if (err) return console.err(err);
+          node.log("my NI is '" + data.ni + "'");
+
+          node.log('scanning for nodes on the network...');
+          xbee.discover_nodes(function(err, nodes) {
+              if (err) return console.err(err);
+              node.log('%d nodes found:', nodes.length);
+              console.dir(nodes);
+
+              // if we found anyone
+              if (nodes.length) {
+                  node.log("saying 'hello' to node %s...", nodes[0].addr);
+                  xbee.send_message({
+                      data: new Buffer("hello"),
+                      addr: nodes[0].addr,
+                      broadcast: false,
+                  },
+                  // callback
+                  function(err, data) {
+                      if (err) return console.error(err);
+                      // print the string status message for the status we got back
+                      node.log('delivery status: %s',
+                          xbee.DELIVERY_STATUS_STRINGS[data.status]);
+                      console.dir(data);
+                      // console.log('goodbye');
+                      // process.exit(0);
+                  });
+              }
+          });
+      });
+  });
 }
 
 
