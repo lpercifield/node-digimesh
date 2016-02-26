@@ -170,6 +170,10 @@ DigimeshInNode.prototype.close = function() {
     xbee.exit();
     console.log("DigimeshInNode closed");
 }
+RED.events.on("nodes-stopping",function(){
+  xbee.exit();
+  console.log("DigimeshInNode closed");
+})
 function connectXbee(){
   xbee = new Xbee({ device: node.serialConfig.serialport, baud: node.serialConfig.serialbaud }, function() {
       node.log('xbee is ready');
