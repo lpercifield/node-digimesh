@@ -42,6 +42,11 @@ var xbee;
     var node = this;
     this.serial = n.serial;
     this.serialConfig = RED.nodes.getNode(this.serial);
+    this.on('close', function() {
+        // tidy up any state
+        xbee.exit();
+        console.log("DigimeshInNode closed");
+    });
 
     if (node.serialConfig) {
 
@@ -159,11 +164,7 @@ var xbee;
 }
 
 }
-this.on('close', function() {
-    // tidy up any state
-    xbee.exit();
-    console.log("DigimeshInNode closed");
-});
+
 DigimeshInNode.prototype.close = function() {
     // Called when the node is shutdown - eg on redeploy.
     // Allows ports to be closed, connections dropped etc.
