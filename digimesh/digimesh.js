@@ -168,10 +168,10 @@ var XbeeDigiMesh = function(config, callback) {
     });
     var exit = function() {
       console.log("CLOSING UP")
-      this.serial_port.close(function(err) {
-        if (err) console.log("Error closing port: "+util.inspect(err));
-        process.exit();
-      });
+      // this.serial_port.close(function(err) {
+      //   if (err) console.log("Error closing port: "+util.inspect(err));
+      //   process.exit();
+      // });
     }
     return this;
 };
