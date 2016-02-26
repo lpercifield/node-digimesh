@@ -166,6 +166,12 @@ var XbeeDigiMesh = function(config, callback) {
     this.serial_port.on('data', function(data) {
         that.parse_byte(data[0]);
     });
+    var exit = function() { 
+      this.serial.close(function(err) {
+        if (err) console.log("Error closing port: "+util.inspect(err));
+        process.exit();
+      });
+    }
     return this;
 };
 
@@ -173,14 +179,14 @@ var XbeeDigiMesh = function(config, callback) {
 util.inherits(XbeeDigiMesh, EventEmitter);
 
 
-XbeeDigiMesh.prototype.exit = function(){
-    console.log("calling exit")
-    var that = this;
-    that.serial_port.close(function(err) {
-      if (err) console.log("Error closing port: "+util.inspect(err));
-      process.exit();
-    });
-}
+// XbeeDigiMesh.prototype.exit = function(){
+//     console.log("calling exit")
+//     var that = this;
+//     that.serial_port.close(function(err) {
+//       if (err) console.log("Error closing port: "+util.inspect(err));
+//       process.exit();
+//     });
+// }
 
 ////////////////////////////////////////////
 // MESSAGE HANDLING FUNCTIONS

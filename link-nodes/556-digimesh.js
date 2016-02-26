@@ -44,11 +44,7 @@ var xbee;
     this.serialConfig = RED.nodes.getNode(this.serial);
 
     if (node.serialConfig) {
-      this.on('close', function() {
-          // tidy up any state
-          xbee.exit();
-          console.log("DigimeshInNode closed");
-      });
+
 
         try {
 
@@ -56,7 +52,11 @@ var xbee;
           //connectXbee();
           xbee = new Xbee({ device: node.serialConfig.serialport, baud: node.serialConfig.serialbaud }, function() {
               node.log('xbee is ready');
-
+              node.on('close', function() {
+                  // tidy up any state
+                  xbee.exit();
+                  console.log("DigimeshInNode closed");
+              });
 
               node.log('getting node identifier...');
               // ask for node identifier string
