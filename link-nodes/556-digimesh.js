@@ -170,7 +170,7 @@ DigimeshInNode.prototype.close = function() {
     xbee.exit();
     console.log("DigimeshInNode closed");
 }
-RED.events.on("nodes-stopping",function(){
+RED.on("nodes-stopping",function(){
   xbee.exit();
   console.log("DigimeshInNode closed");
 })
