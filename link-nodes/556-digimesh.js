@@ -44,7 +44,7 @@ var xbee;
     this.serialConfig = RED.nodes.getNode(this.serial);
     this.on('close', function() {
         // tidy up any state
-        //xbee.exit();
+        xbee.exit();
         console.log("DigimeshInNode closed");
     });
 
