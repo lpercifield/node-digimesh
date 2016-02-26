@@ -36,7 +36,7 @@ var xbee;
  *
  * XBee addresses are specified as base64 Hex strings, e.g. 0013a200408b9437.
  **/
- function XBeeInNode(n) {
+ function DigimeshInNode(n) {
     RED.nodes.createNode(this,n);
     var node = this;
     this.serial = n.serial;
@@ -155,11 +155,11 @@ var xbee;
 
 }
 
-XBeeInNode.prototype.close = function() {
+DigimeshInNode.prototype.close = function() {
     // Called when the node is shutdown - eg on redeploy.
     // Allows ports to be closed, connections dropped etc.
     // eg: this.client.disconnect();
-    util.log("XBeeInNode closed");
+    util.log("DigimeshInNode closed");
 }
 
 
@@ -286,7 +286,7 @@ XBeeInNode.prototype.close = function() {
 // }
 
 // Register the nodes by name. This must be called before overriding any of the Node functions.
-console.log("Registering xbee in node");
+console.log("Registering digimesh in node");
 RED.nodes.registerType("digimesh in", DigimeshInNode);
 //RED.nodes.registerType("digimesh out", DigimeshOutNode);
 //RED.nodes.registerType("xbee dio out", XBeeDIOutNode);
