@@ -37,7 +37,7 @@ var XbeeDigiMesh = function(config, callback) {
     this.callback_queue = new Array(256);
 
     // number of milliseconds before a Network Discover will timeout (default is 13000)
-    this.nt_timeout = 13000;
+    this.nt_timeout = 90000;
     // address of local unit, filled in below
     this.address;
     // buffer version of address
@@ -123,7 +123,7 @@ var XbeeDigiMesh = function(config, callback) {
         rtscts: true,
         bufferSize: 1,
         hupcl: false,
-    }, 
+    },
     // on open event
     function(err) {
         // call when all three are done
@@ -218,6 +218,7 @@ XbeeDigiMesh.prototype.handle_remote_at_command_response = function(packet) {
 
 // returned after sending an AT command to the local unit
 XbeeDigiMesh.prototype.handle_at_command_response = function(packet) {
+    //console.log(packet.toString('hex').replace(/(.{2})/g, "$1 "));
     var frame_id = packet[1];
     var data = {};
     data.status = packet[4];
@@ -230,6 +231,11 @@ XbeeDigiMesh.prototype.handle_at_command_response = function(packet) {
     if (packet.toString(undefined, 2,4) === 'NI') {
         data.ni = packet.slice(5).toString();
         this.find_callback_helper('ni_string', frame_id, data);
+    }
+    else if (packet.toString(undefined, 2,4) === 'DB') {
+        console.log("RSSI "+packet[5]);
+        //data.db = packet.slice(5).toString();
+        //this.find_callback_helper(null, frame_id, data);
     }
     else if (packet.toString(undefined, 2,4) === 'NT') {
         // timeout in ms -- this is two bytes, but can't be over 0xFC
@@ -251,7 +257,7 @@ XbeeDigiMesh.prototype.handle_at_command_response = function(packet) {
 
     // if ND -- discover all nodes
     else if (packet.toString(undefined, 2,4) === 'ND') {
-        //console.log(packet.toString('hex').replace(/(.{2})/g, "$1 "));
+
         // find index of NULL that terminates NI
         //NOTE Buffer.indexOf() needs node 4, use loop until upgrade
         //var index = packet.indexOf(0x00, 13);
@@ -268,6 +274,7 @@ XbeeDigiMesh.prototype.handle_at_command_response = function(packet) {
         // one byte reserved for status
         data.profile_id = packet[index+5] << 8 | packet[index+6];
         data.manufacturer_id = packet[index+7] << 8 | packet[index+8];
+        data.rssi = packet[index+9];
 
         // as noted in the discover_nodes function, this needs special handling
         var callback = this.callback_queue[frame_id];
@@ -536,7 +543,7 @@ XbeeDigiMesh.prototype.write_buf = function(buf) {
     var that = this;
     // make sure nothing is using the serial port
     this.serial_port.drain(function() {
-            
+
         // print the buffer // DEBUG
         // TODO why does this have to be 'hex', but others need 16?
         //console.log(buf.toString('hex').replace(/(.{2})/g, "$1 "));
