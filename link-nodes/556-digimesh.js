@@ -24,7 +24,7 @@
  var util = require("util");
  //var events = require("events");
  var RED = require("../../../red/red");
- var events = require("../../../red/red");
+ //var events = require("../../../red/red");
  //var XBee = require('svd-xbee').XBee;
 var Xbee = require('digimesh');
 var xbee;
@@ -159,7 +159,11 @@ var xbee;
 }
 
 }
-
+this.on('close', function() {
+    // tidy up any state
+    xbee.exit();
+    console.log("DigimeshInNode closed");
+});
 DigimeshInNode.prototype.close = function() {
     // Called when the node is shutdown - eg on redeploy.
     // Allows ports to be closed, connections dropped etc.
@@ -171,10 +175,10 @@ DigimeshInNode.prototype.close = function() {
     xbee.exit();
     console.log("DigimeshInNode closed");
 }
-events.on("nodes-stopping",function(){
-  xbee.exit();
-  console.log("DigimeshInNode closed");
-})
+// events.on("nodes-stopping",function(){
+//   xbee.exit();
+//   console.log("DigimeshInNode closed");
+// })
 function connectXbee(){
   xbee = new Xbee({ device: node.serialConfig.serialport, baud: node.serialConfig.serialbaud }, function() {
       node.log('xbee is ready');
