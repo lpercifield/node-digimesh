@@ -64,7 +64,7 @@ var xbee;
                     xbee.discover_nodes(function(err, nodes) {
                         if (err) return console.err(err);
                         node.log('%d nodes found:', nodes.length);
-                        node.dir(nodes);
+                        console.dir(nodes);
 
                         // if we found anyone
                         if (nodes.length) {
@@ -118,7 +118,7 @@ var xbee;
       xbee.on('message_received', function(data) {
         //var hexout = hex_to_ascii(data.data);
         console.log('received a message from %s with data: %s', data.addr,data.data);
-        node.send({ "payload": data.data, "source": data.addr });
+        node.send({ "payload": data.data.toString(), "source": data.addr });
         // var length = data.data.length;
         // var outstring = "";
         // switch (length) {
