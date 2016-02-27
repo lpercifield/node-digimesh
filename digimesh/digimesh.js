@@ -185,6 +185,7 @@ XbeeDigiMesh.prototype.exit = function(){
     var that = this;
     that.serial_port.close(function(err) {
       if (err) console.log("Error closing port: "+util.inspect(err));
+      console.log("Serial port closed");
       process.exit();
     });
 }
