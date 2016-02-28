@@ -180,12 +180,13 @@ var XbeeDigiMesh = function(config, callback) {
 util.inherits(XbeeDigiMesh, EventEmitter);
 
 
-XbeeDigiMesh.prototype.exit = function(){
+XbeeDigiMesh.prototype.exit = function(callback){
     console.log("calling exit")
     var that = this;
     that.serial_port.close(function(err) {
       if (err) console.log("Error closing port: "+util.inspect(err));
       console.log("Serial port closed");
+      callback();
       process.exit();
     });
 }

@@ -52,44 +52,50 @@ var xbee;
           //connectXbee();
           xbee = new Xbee({ device: node.serialConfig.serialport, baud: node.serialConfig.serialbaud }, function() {
               node.log('xbee is ready');
-              node.on('close', function() {
+              node.on('close', function(done) {
                   // tidy up any state
-                  xbee.exit();
+                  xbee.exit(function(){
+                    done();
+                  });
                   console.log("DigimeshInNode closed");
               });
+              // var buf = new Buffer(1170);
+              // xbee.at_command("SP",buf,function(){
+              //   console.log("done with sp");
+              // })
 
-              node.log('getting node identifier...');
-              // ask for node identifier string
-              xbee.get_ni_string(function(err, data) {
-                  if (err) return console.err(err);
-                  node.log("my NI is '" + data.ni + "'");
-
-                  node.log('scanning for nodes on the network...');
-                  xbee.discover_nodes(function(err, nodes) {
-                      if (err) return console.err(err);
-                      node.log('%d nodes found:', nodes.length);
-                      console.dir(nodes);
-
-                      // if we found anyone
-                      if (nodes.length) {
-                          node.log("saying 'hello' to node %s...", nodes[0].addr);
-                          xbee.send_message({
-                              data: new Buffer("hello"),
-                              addr: nodes[0].addr,
-                              broadcast: false,
-                          },
-                          // callback
-                          function(err, data) {
-                              if (err) return console.error(err);
-                              // print the string status message for the status we got back
-                              node.log('delivery status: %s',
-                                  xbee.DELIVERY_STATUS_STRINGS[data.status]);
-                              console.dir(data);
-                              // console.log('goodbye');
-                              // process.exit(0);
-                          });
-                      }
-                  });
+              // node.log('getting node identifier...');
+              // // ask for node identifier string
+              // xbee.get_ni_string(function(err, data) {
+              //     if (err) return console.err(err);
+              //     node.log("my NI is '" + data.ni + "'");
+              //
+              //     node.log('scanning for nodes on the network...');
+              //     xbee.discover_nodes(function(err, nodes) {
+              //         if (err) return console.err(err);
+              //         node.log('%d nodes found:', nodes.length);
+              //         console.dir(nodes);
+              //
+              //         // if we found anyone
+              //         if (nodes.length) {
+              //             node.log("saying 'hello' to node %s...", nodes[0].addr);
+              //             xbee.send_message({
+              //                 data: new Buffer("hello"),
+              //                 addr: nodes[0].addr,
+              //                 broadcast: false,
+              //             },
+              //             // callback
+              //             function(err, data) {
+              //                 if (err) return console.error(err);
+              //                 // print the string status message for the status we got back
+              //                 node.log('delivery status: %s',
+              //                     xbee.DELIVERY_STATUS_STRINGS[data.status]);
+              //                 console.dir(data);
+              //                 // console.log('goodbye');
+              //                 // process.exit(0);
+              //             });
+              //         }
+              //     });
               });
           });
           // node.xbee = xbeePool.get(
