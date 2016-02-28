@@ -96,7 +96,7 @@ var xbee;
               //             });
               //         }
               //     });
-              });
+              //});
           });
           // node.xbee = xbeePool.get(
           //     node.serialConfig.serialport,
