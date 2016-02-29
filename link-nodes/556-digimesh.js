@@ -55,7 +55,7 @@ var xbee;
           //connectXbee();
           xbee = new Xbee({ device: node.serialConfig.serialport, baud: node.serialConfig.serialbaud }, function() {
               node.log('xbee is ready');
-              this.status({fill:"green",shape:"dot",text:"connected"});
+              node.status({fill:"green",shape:"dot",text:"connected"});
               node.on('close', function(done) {
                   // tidy up any state
                   xbee.exit(function(){
