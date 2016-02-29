@@ -42,6 +42,9 @@ var xbee;
     var node = this;
     this.serial = n.serial;
     this.serialConfig = RED.nodes.getNode(this.serial);
+    node.status({fill:"red",shape:"ring",text:"disconnected"});
+
+
 
     if (node.serialConfig) {
 
@@ -52,9 +55,11 @@ var xbee;
           //connectXbee();
           xbee = new Xbee({ device: node.serialConfig.serialport, baud: node.serialConfig.serialbaud }, function() {
               node.log('xbee is ready');
+              this.status({fill:"green",shape:"dot",text:"connected"});
               node.on('close', function(done) {
                   // tidy up any state
                   xbee.exit(function(){
+                    node.status({fill:"red",shape:"ring",text:"disconnected"});
                     done();
                   });
                   console.log("DigimeshInNode closed");
