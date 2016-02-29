@@ -98,10 +98,10 @@ var xbee;
                   });
               });
           });
-          // var buf = new Buffer("1170","hex");
-          // xbee.at_command('SP',buf,function(){
-          //   console.log("done with sp");
-          // })
+          var buf = new Buffer('1170','hex');
+          xbee.at_command('SP',buf,function(){
+            console.log("done with sp");
+          })
           // node.xbee = xbeePool.get(
           //     node.serialConfig.serialport,
           //     node.serialConfig.serialbaud

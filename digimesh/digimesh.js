@@ -462,7 +462,7 @@ XbeeDigiMesh.prototype.at_command_helper = function(command, callback, data) {
     // if we have a parameter, copy it over
     if (data) data.copy(tx_buf, 7)
     tx_buf[7 + param_len] = this.calc_checksum(tx_buf, 3, tx_buf.length-1);
-    //console.log(tx_buf.toString('hex').replace(/(.{2})/g, "$1 "));
+    console.log(tx_buf.toString('hex').replace(/(.{2})/g, "$1 "));
     this.write_buf(tx_buf);
 
     // save callback or null for future use
