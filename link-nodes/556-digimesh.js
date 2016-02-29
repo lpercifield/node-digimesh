@@ -43,7 +43,7 @@ var xbee;
     this.serial = n.serial;
     this.serialConfig = RED.nodes.getNode(this.serial);
     node.status({fill:"red",shape:"ring",text:"disconnected"});
-
+    node.on("input",function(msg) {
 
 
     if (node.serialConfig) {
@@ -177,6 +177,7 @@ var xbee;
 
   } else {
     node.error("missing serial config");
+}
 }
 
 }
