@@ -144,7 +144,7 @@ var xbee;
         console.log('received a message from %s with data: %s', data.addr,data.data);
         var obj = {"data": JSON.parse(data.data)};
         //obj.payload["source"]= data.addr;
-        node.send({ "data": obj, "source": data.addr });
+        node.send({ "payload": obj, "source": data.addr });
         // var length = data.data.length;
         // var outstring = "";
         // switch (length) {
