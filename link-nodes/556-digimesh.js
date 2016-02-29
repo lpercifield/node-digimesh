@@ -60,7 +60,7 @@ var xbee;
                   console.log("DigimeshInNode closed");
               });
               var buf = new Buffer("1170","hex");
-              xbee.at_command("SP",buf,function(){
+              xbee.at_command('SP',buf,function(){
                 console.log("done with sp");
               })
 
