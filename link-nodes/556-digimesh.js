@@ -178,7 +178,7 @@ var xbee;
   } else {
     node.error("missing serial config");
 }
-}
+});
 
 }
 
