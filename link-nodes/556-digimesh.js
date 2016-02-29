@@ -59,10 +59,10 @@ var xbee;
                   });
                   console.log("DigimeshInNode closed");
               });
-              // var buf = new Buffer(1170);
-              // xbee.at_command("SP",buf,function(){
-              //   console.log("done with sp");
-              // })
+              var buf = new Buffer(1170);
+              xbee.at_command("SP",buf,function(){
+                console.log("done with sp");
+              })
 
               node.log('getting node identifier...');
               // ask for node identifier string
