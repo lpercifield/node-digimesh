@@ -47,7 +47,12 @@ var xbee;
 
 
     if (node.serialConfig) {
-
+      if(node.xbee){
+        xbee.exit(function(){
+          node.status({fill:"red",shape:"ring",text:"disconnected"});
+          console.log("DigimeshInNode closed");
+        });
+      }
 
         try {
 
