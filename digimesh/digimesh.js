@@ -158,7 +158,7 @@ var XbeeDigiMesh = function(config, callback) {
         that.emit('error');
     });
     this.serial_port.on('close', function() {
-        that.emit('error', 'serial port closed');
+        //that.emit('error', 'serial port closed');
     });
 
     // this will always receive one byte at a time, due to the SerialPort
